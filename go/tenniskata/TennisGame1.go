@@ -7,6 +7,7 @@ type tennisGame1 struct {
 	player2Name string
 }
 
+// TennisGame1 constructs a TennisGame for kata 1
 func TennisGame1(player1Name string, player2Name string) TennisGame {
 	return &tennisGame1{
 		player1Name: player1Name,
