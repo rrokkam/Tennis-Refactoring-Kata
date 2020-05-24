@@ -29,7 +29,7 @@ func getScoreForEvenGame(score int) string {
 	return "Deuce"
 }
 
-func getScoreForAdvantageGame(score1, score2 int) string {
+func getScoreForAdvantageOrWonGame(score1, score2 int) string {
 	diff := score1 - score2
 	if diff == 1 || diff == -1 {
 		return "Advantage" + " " + getLeader(diff)
@@ -68,7 +68,7 @@ func (game *tennisGame1) GetScore() string {
 	if game.score1 == game.score2 {
 		return getScoreForEvenGame(game.score1)
 	} else if game.score1 >= 4 || game.score2 >= 4 {
-		return getScoreForAdvantageGame(game.score1, game.score2)
+		return getScoreForAdvantageOrWonGame(game.score1, game.score2)
 	} else {
 		return getScoreForRegularGame(game.score1, game.score2)
 	}
