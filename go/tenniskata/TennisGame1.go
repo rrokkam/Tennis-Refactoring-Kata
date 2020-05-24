@@ -53,6 +53,29 @@ func getScoreForAdvantageGame(score1, score2 int) string {
 	return score
 }
 
+func getScoreForRegularGame(tempScore, score1, score2 int) string {
+	score := ""
+	for i := 1; i < 3; i++ {
+		if i == 1 {
+			tempScore = score1
+		} else {
+			score += "-"
+			tempScore = score2
+		}
+		switch tempScore {
+		case 0:
+			score += "Love"
+		case 1:
+			score += "Fifteen"
+		case 2:
+			score += "Thirty"
+		case 3:
+			score += "Forty"
+		}
+	}
+	return score
+}
+
 func (game *tennisGame1) GetScore() string {
 	score := ""
 	tempScore := 0
@@ -61,24 +84,7 @@ func (game *tennisGame1) GetScore() string {
 	} else if game.score1 >= 4 || game.score2 >= 4 {
 		score = getScoreForAdvantageGame(game.score1, game.score2)
 	} else {
-		for i := 1; i < 3; i++ {
-			if i == 1 {
-				tempScore = game.score1
-			} else {
-				score += "-"
-				tempScore = game.score2
-			}
-			switch tempScore {
-			case 0:
-				score += "Love"
-			case 1:
-				score += "Fifteen"
-			case 2:
-				score += "Thirty"
-			case 3:
-				score += "Forty"
-			}
-		}
+		score = getScoreForRegularGame(tempScore, game.score1, game.score2)
 	}
 	return score
 }
