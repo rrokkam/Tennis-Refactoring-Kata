@@ -51,8 +51,8 @@ func getScoreForRegularGame(score1, score2 int) string {
 	return wordFromScore(score1) + "-" + wordFromScore(score2)
 }
 
-func wordFromScore(tempScore int) string {
-	switch tempScore {
+func wordFromScore(score int) string {
+	switch score {
 	case 0:
 		return "Love"
 	case 1:
