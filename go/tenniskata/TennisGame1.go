@@ -8,11 +8,9 @@ type tennisGame1 struct {
 }
 
 func TennisGame1(player1Name string, player2Name string) TennisGame {
-	game := &tennisGame1{
+	return &tennisGame1{
 		player1Name: player1Name,
 		player2Name: player2Name}
-
-	return game
 }
 
 func (game *tennisGame1) WonPoint(playerName string) {
