@@ -23,12 +23,8 @@ func (game *tennisGame1) WonPoint(playerName string) {
 
 func getScoreForEvenGame(score int) string {
 	switch score {
-	case 0:
-		return "Love-All"
-	case 1:
-		return "Fifteen-All"
-	case 2:
-		return "Thirty-All"
+	case 0, 1, 2:
+		return wordFromScore(score) + "-All"
 	default:
 		return "Deuce"
 	}
