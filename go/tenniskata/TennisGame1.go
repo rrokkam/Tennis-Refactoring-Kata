@@ -21,8 +21,8 @@ func (game *tennisGame1) WonPoint(playerName string) {
 	}
 }
 
-func getScoreForEvenGame(score1 int) string {
-	switch score1 {
+func getScoreForEvenGame(score int) string {
+	switch score {
 	case 0:
 		return "Love-All"
 	case 1:
