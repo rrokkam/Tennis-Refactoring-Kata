@@ -60,16 +60,6 @@ func getScoreForRegularGame(score1, score2 int) string {
 }
 
 func wordFromScore(score int) string {
-	switch score {
-	case 0:
-		return "Love"
-	case 1:
-		return "Fifteen"
-	case 2:
-		return "Thirty"
-	case 3:
-		return "Forty"
-	default:
-		return ""
-	}
+	scores := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
+	return scores[score]
 }
