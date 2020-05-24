@@ -17,9 +17,9 @@ func TennisGame1(player1Name string, player2Name string) TennisGame {
 
 func (game *tennisGame1) WonPoint(playerName string) {
 	if playerName == "player1" {
-		game.score1 += 1
+		game.score1++
 	} else {
-		game.score2 += 1
+		game.score2++
 	}
 }
 
