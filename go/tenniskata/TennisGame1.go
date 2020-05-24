@@ -24,18 +24,16 @@ func (game *tennisGame1) WonPoint(playerName string) {
 }
 
 func getScoreForEvenGame(score1 int) string {
-	score := ""
 	switch score1 {
 	case 0:
-		score = "Love-All"
+		return "Love-All"
 	case 1:
-		score = "Fifteen-All"
+		return "Fifteen-All"
 	case 2:
-		score = "Thirty-All"
+		return "Thirty-All"
 	default:
-		score = "Deuce"
+		return "Deuce"
 	}
-	return score
 }
 
 func getScoreForAdvantageGame(score1, score2 int) string {
