@@ -58,31 +58,28 @@ func getScoreForRegularGame(score1, score2 int) string {
 	tempScore := 0
 
 	tempScore = score1
-	switch tempScore {
-	case 0:
-		score += "Love"
-	case 1:
-		score += "Fifteen"
-	case 2:
-		score += "Thirty"
-	case 3:
-		score += "Forty"
-	}
+	score += wordFromScore(tempScore)
 
 	score += "-"
 	tempScore = score2
-	switch tempScore {
-	case 0:
-		score += "Love"
-	case 1:
-		score += "Fifteen"
-	case 2:
-		score += "Thirty"
-	case 3:
-		score += "Forty"
-	}
+	score += wordFromScore(tempScore)
 
 	return score
+}
+
+func wordFromScore(tempScore int) string {
+	switch tempScore {
+	case 0:
+		return "Love"
+	case 1:
+		return "Fifteen"
+	case 2:
+		return "Thirty"
+	case 3:
+		return "Forty"
+	default:
+		return ""
+	}
 }
 
 func (game *tennisGame1) GetScore() string {
