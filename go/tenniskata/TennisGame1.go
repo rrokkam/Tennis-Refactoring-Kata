@@ -54,17 +54,7 @@ func getScoreForAdvantageGame(score1, score2 int) string {
 }
 
 func getScoreForRegularGame(score1, score2 int) string {
-	score := ""
-	tempScore := 0
-
-	tempScore = score1
-	score += wordFromScore(tempScore)
-
-	score += "-"
-	tempScore = score2
-	score += wordFromScore(tempScore)
-
-	return score
+	return wordFromScore(score1) + "-" + wordFromScore(score2)
 }
 
 func wordFromScore(tempScore int) string {
