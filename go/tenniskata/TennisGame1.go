@@ -56,24 +56,32 @@ func getScoreForAdvantageGame(score1, score2 int) string {
 func getScoreForRegularGame(score1, score2 int) string {
 	score := ""
 	tempScore := 0
-	for i := 1; i < 3; i++ {
-		if i == 1 {
-			tempScore = score1
-		} else {
-			score += "-"
-			tempScore = score2
-		}
-		switch tempScore {
-		case 0:
-			score += "Love"
-		case 1:
-			score += "Fifteen"
-		case 2:
-			score += "Thirty"
-		case 3:
-			score += "Forty"
-		}
+
+	tempScore = score1
+	switch tempScore {
+	case 0:
+		score += "Love"
+	case 1:
+		score += "Fifteen"
+	case 2:
+		score += "Thirty"
+	case 3:
+		score += "Forty"
 	}
+
+	score += "-"
+	tempScore = score2
+	switch tempScore {
+	case 0:
+		score += "Love"
+	case 1:
+		score += "Fifteen"
+	case 2:
+		score += "Thirty"
+	case 3:
+		score += "Forty"
+	}
+
 	return score
 }
 
