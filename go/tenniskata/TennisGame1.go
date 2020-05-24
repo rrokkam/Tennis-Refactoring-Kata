@@ -31,15 +31,10 @@ func getScoreForEvenGame(score int) string {
 
 func getScoreForAdvantageGame(score1, score2 int) string {
 	diff := score1 - score2
-	if diff == 1 {
+	if diff == 1 || diff == -1 {
 		return "Advantage" + " " + getLeader(diff)
-	} else if diff == -1 {
-		return "Advantage" + " " + getLeader(diff)
-	} else if diff >= 2 {
-		return "Win for" + " " + getLeader(diff)
-	} else {
-		return "Win for" + " " + getLeader(diff)
 	}
+	return "Win for" + " " + getLeader(diff)
 }
 
 func getLeader(diff int) string {
