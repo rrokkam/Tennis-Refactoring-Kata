@@ -32,14 +32,22 @@ func getScoreForEvenGame(score int) string {
 func getScoreForAdvantageGame(score1, score2 int) string {
 	diff := score1 - score2
 	if diff == 1 {
-		return "Advantage player1"
+		return "Advantage" + " " + getLeader(diff)
 	} else if diff == -1 {
-		return "Advantage player2"
+		return "Advantage" + " " + getLeader(diff)
 	} else if diff >= 2 {
-		return "Win for player1"
+		return "Win for" + " " + getLeader(diff)
 	} else {
-		return "Win for player2"
+		return "Win for" + " " + getLeader(diff)
 	}
+}
+
+func getLeader(diff int) string {
+	if diff > 0 {
+		return "player1"
+	}
+	return "player2"
+
 }
 
 func getScoreForRegularGame(score1, score2 int) string {
