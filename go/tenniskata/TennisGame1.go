@@ -23,20 +23,26 @@ func (game *tennisGame1) WonPoint(playerName string) {
 	}
 }
 
+func getScoreForEvenGame(score1 int) string {
+	score := ""
+	switch score1 {
+	case 0:
+		score = "Love-All"
+	case 1:
+		score = "Fifteen-All"
+	case 2:
+		score = "Thirty-All"
+	default:
+		score = "Deuce"
+	}
+	return score
+}
+
 func (game *tennisGame1) GetScore() string {
 	score := ""
 	tempScore := 0
 	if game.score1 == game.score2 {
-		switch game.score1 {
-		case 0:
-			score = "Love-All"
-		case 1:
-			score = "Fifteen-All"
-		case 2:
-			score = "Thirty-All"
-		default:
-			score = "Deuce"
-		}
+		score = getScoreForEvenGame(game.score1)
 	} else if game.score1 >= 4 || game.score2 >= 4 {
 		minusResult := game.score1 - game.score2
 		if minusResult == 1 {
