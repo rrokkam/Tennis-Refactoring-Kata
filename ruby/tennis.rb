@@ -43,11 +43,8 @@ class TennisGame1
     end
   end
 
-  def score
-    result = ""
-    return tied_score if tied?
-    return advantage_or_won_score if advantage_or_won?
-
+  def regular_score
+    result = ''
     (1...3).each do |i|
       if (i == 1)
         tempScore = @p1points
@@ -63,6 +60,13 @@ class TennisGame1
       }[tempScore]
     end
     result
+  end
+
+  def score
+    return tied_score if tied?
+    return advantage_or_won_score if advantage_or_won?
+
+    return regular_score
   end
 end
 
