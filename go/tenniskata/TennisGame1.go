@@ -40,11 +40,14 @@ func (game *tennisGame1) scoreForEvenGame() string {
 }
 
 func (game *tennisGame1) scoreForAdvantageOrWonGame() string {
-	diff := game.score1 - game.score2
-	if diff == 1 || diff == -1 {
+	if game.isAdvantage() {
 		return "Advantage " + game.leader()
 	}
 	return "Win for " + game.leader()
+}
+
+func (game *tennisGame1) isAdvantage() bool {
+	return (game.score1-game.score2 == 1) || (game.score2-game.score1 == 1)
 }
 
 func (game *tennisGame1) leader() string {
