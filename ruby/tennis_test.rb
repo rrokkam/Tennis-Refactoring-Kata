@@ -2,7 +2,9 @@
 
 require 'minitest'
 require 'minitest/autorun'
-require_relative 'tennis'
+require_relative 'tennis1'
+require_relative 'tennis2'
+require_relative 'tennis3'
 
 TEST_CASES = [
   [0, 0, 'Love-All', 'player1', 'player2'],
