@@ -24,23 +24,23 @@ func (game *tennisGame1) WonPoint(playerName string) {
 
 func (game *tennisGame1) GetScore() string {
 	if game.score1 == game.score2 {
-		return game.getScoreForEvenGame(game.score1)
+		return game.getScoreForEvenGame()
 	} else if game.score1 >= 4 || game.score2 >= 4 {
-		return game.getScoreForAdvantageOrWonGame(game.score1, game.score2)
+		return game.getScoreForAdvantageOrWonGame()
 	} else {
-		return game.getScoreForRegularGame(game.score1, game.score2)
+		return game.getScoreForRegularGame()
 	}
 }
 
-func (game *tennisGame1) getScoreForEvenGame(score int) string {
-	if score < 3 {
-		return game.wordFromScore(score) + "-" + "All"
+func (game *tennisGame1) getScoreForEvenGame() string {
+	if game.score1 < 3 {
+		return game.wordFromScore(game.score1) + "-" + "All"
 	}
 	return "Deuce"
 }
 
-func (game *tennisGame1) getScoreForAdvantageOrWonGame(score1, score2 int) string {
-	diff := score1 - score2
+func (game *tennisGame1) getScoreForAdvantageOrWonGame() string {
+	diff := game.score1 - game.score2
 	if diff == 1 || diff == -1 {
 		return "Advantage" + " " + game.getLeader(diff)
 	}
@@ -57,8 +57,8 @@ func (game *tennisGame1) getLeader(diff int) string {
 	}
 }
 
-func (game *tennisGame1) getScoreForRegularGame(score1, score2 int) string {
-	return game.wordFromScore(score1) + "-" + game.wordFromScore(score2)
+func (game *tennisGame1) getScoreForRegularGame() string {
+	return game.wordFromScore(game.score1) + "-" + game.wordFromScore(game.score2)
 }
 
 func (game *tennisGame1) wordFromScore(score int) string {
