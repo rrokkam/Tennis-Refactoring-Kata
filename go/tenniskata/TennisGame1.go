@@ -42,9 +42,9 @@ func (game *tennisGame1) getScoreForEvenGame() string {
 func (game *tennisGame1) getScoreForAdvantageOrWonGame() string {
 	diff := game.score1 - game.score2
 	if diff == 1 || diff == -1 {
-		return "Advantage" + " " + game.getLeader(diff)
+		return "Advantage " + game.getLeader(diff)
 	}
-	return "Win for" + " " + game.getLeader(diff)
+	return "Win for " + game.getLeader(diff)
 }
 
 func (game *tennisGame1) getLeader(diff int) string {
@@ -62,6 +62,5 @@ func (game *tennisGame1) getScoreForRegularGame() string {
 }
 
 func (game *tennisGame1) wordFromScore(score int) string {
-	scores := [4]string{"Love", "Fifteen", "Thirty", "Forty"}
-	return scores[score]
+	return [4]string{"Love", "Fifteen", "Thirty", "Forty"}[score]
 }
