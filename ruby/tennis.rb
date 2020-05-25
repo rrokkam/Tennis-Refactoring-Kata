@@ -30,36 +30,37 @@ class TennisGame1
     @p1points >= 4 or @p2points >= 4
   end
 
+  def advantage_or_won_score
+    minusResult = @p1points - @p2points
+    if (minusResult == 1)
+      "Advantage player1"
+    elsif (minusResult == -1)
+      "Advantage player2"
+    elsif (minusResult >= 2)
+      "Win for player1"
+    else
+      "Win for player2"
+    end
+  end
+
   def score
     result = ""
     return tied_score if tied?
+    return advantage_or_won_score if advantage_or_won?
 
-    if advantage_or_won?
-      minusResult = @p1points - @p2points
-      if (minusResult == 1)
-        result = "Advantage player1"
-      elsif (minusResult == -1)
-        result = "Advantage player2"
-      elsif (minusResult >= 2)
-        result = "Win for player1"
+    (1...3).each do |i|
+      if (i == 1)
+        tempScore = @p1points
       else
-        result = "Win for player2"
+        result += "-"
+        tempScore = @p2points
       end
-    else
-      (1...3).each do |i|
-        if (i == 1)
-          tempScore = @p1points
-        else
-          result += "-"
-          tempScore = @p2points
-        end
-        result += {
-          0 => "Love",
-          1 => "Fifteen",
-          2 => "Thirty",
-          3 => "Forty",
-        }[tempScore]
-      end
+      result += {
+        0 => "Love",
+        1 => "Fifteen",
+        2 => "Thirty",
+        3 => "Forty",
+      }[tempScore]
     end
     result
   end
