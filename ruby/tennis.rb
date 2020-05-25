@@ -18,20 +18,23 @@ class TennisGame1
     @p1points == @p2points
   end
 
+  def tied_score
+    {
+      0 => "Love-All",
+      1 => "Fifteen-All",
+      2 => "Thirty-All",
+    }.fetch(@p1points, "Deuce")
+  end
+
   def advantage_or_won?
     @p1points >= 4 or @p2points >= 4
   end
 
   def score
     result = ""
-    tempScore = 0
-    if tied?
-      result = {
-        0 => "Love-All",
-        1 => "Fifteen-All",
-        2 => "Thirty-All",
-      }.fetch(@p1points, "Deuce")
-    elsif advantage_or_won?
+    return tied_score if tied?
+
+    if advantage_or_won?
       minusResult = @p1points - @p2points
       if (minusResult == 1)
         result = "Advantage player1"
