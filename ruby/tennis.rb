@@ -49,17 +49,21 @@ class TennisGame1
       if (i == 1)
         tempScore = @p1points
       else
-        result += "-"
+        result += '-'
         tempScore = @p2points
       end
-      result += {
-        0 => "Love",
-        1 => "Fifteen",
-        2 => "Thirty",
-        3 => "Forty",
-      }[tempScore]
+      result += names[tempScore]
     end
     result
+  end
+
+  def names
+    {
+      0 => 'Love',
+      1 => 'Fifteen',
+      2 => 'Thirty',
+      3 => 'Forty',
+    }
   end
 
   def score
