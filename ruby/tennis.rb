@@ -1,66 +1,86 @@
+module Tennis
+  class GameScore
+    def initialize
+      @server_points = 0
+      @receiver_points = 0
+    end
+
+    def server_scored
+      @server_points += 1
+    end
+
+    def receiver_scored
+      @receiver_points += 1
+    end
+
+    def tied?
+      @server_points == @receiver_points
+    end
+
+    def tied_score
+      {
+        0 => "Love-All",
+        1 => "Fifteen-All",
+        2 => "Thirty-All",
+      }.fetch(@server_points, "Deuce")
+    end
+
+    def advantage_or_won?
+      @server_points >= 4 or @receiver_points >= 4
+    end
+
+    def advantage_or_won_score
+      minusResult = @server_points - @receiver_points
+      if (minusResult == 1)
+        "Advantage player1"
+      elsif (minusResult == -1)
+        "Advantage player2"
+      elsif (minusResult >= 2)
+        "Win for player1"
+      else
+        "Win for player2"
+      end
+    end
+
+    def regular_score
+      names[@server_points] + '-' + names[@receiver_points]
+    end
+
+    def names
+      {
+        0 => 'Love',
+        1 => 'Fifteen',
+        2 => 'Thirty',
+        3 => 'Forty',
+      }
+    end
+
+    def to_str
+      return tied_score if tied?
+      return advantage_or_won_score if advantage_or_won?
+
+      return regular_score
+    end
+  end
+end
+
 class TennisGame1
   def initialize(player1Name, player2Name)
     @player1Name = player1Name
     @player2Name = player2Name
-    @p1points = 0
-    @p2points = 0
+    @score = Tennis::GameScore.new
   end
 
   def won_point(playerName)
-    if playerName == "player1"
-      @p1points += 1
+    if playerName == @player1Name
+      @score.server_scored
     else
-      @p2points += 1
+      @score.receiver_scored
     end
-  end
-
-  def tied?
-    @p1points == @p2points
-  end
-
-  def tied_score
-    {
-      0 => "Love-All",
-      1 => "Fifteen-All",
-      2 => "Thirty-All",
-    }.fetch(@p1points, "Deuce")
-  end
-
-  def advantage_or_won?
-    @p1points >= 4 or @p2points >= 4
-  end
-
-  def advantage_or_won_score
-    minusResult = @p1points - @p2points
-    if (minusResult == 1)
-      "Advantage player1"
-    elsif (minusResult == -1)
-      "Advantage player2"
-    elsif (minusResult >= 2)
-      "Win for player1"
-    else
-      "Win for player2"
-    end
-  end
-
-  def regular_score
-    names[@p1points] + '-' + names[@p2points]
-  end
-
-  def names
-    {
-      0 => 'Love',
-      1 => 'Fifteen',
-      2 => 'Thirty',
-      3 => 'Forty',
-    }
   end
 
   def score
-    return tied_score if tied?
-    return advantage_or_won_score if advantage_or_won?
-
-    return regular_score
+    @score.to_str
   end
 end
 
