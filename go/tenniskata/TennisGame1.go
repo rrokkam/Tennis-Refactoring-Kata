@@ -15,9 +15,9 @@ func TennisGame1(player1Name string, player2Name string) TennisGame {
 }
 
 func (game *tennisGame1) WonPoint(playerName string) {
-	if playerName == "player1" {
+	if playerName == game.player1Name {
 		game.score1++
-	} else {
+	} else if playerName == game.player2Name {
 		game.score2++
 	}
 }
@@ -49,10 +49,12 @@ func (game *tennisGame1) getScoreForAdvantageOrWonGame(score1, score2 int) strin
 
 func (game *tennisGame1) getLeader(diff int) string {
 	if diff > 0 {
-		return "player1"
+		return game.player1Name
+	} else if diff < 0 {
+		return game.player2Name
+	} else {
+		return ""
 	}
-	return "player2"
-
 }
 
 func (game *tennisGame1) getScoreForRegularGame(score1, score2 int) string {
