@@ -44,13 +44,7 @@ class TennisGame1
   end
 
   def regular_score
-    result = ''
-    tempScore = @p1points
-    result += names[tempScore]
-    result += '-'
-    tempScore = @p2points
-    result += names[tempScore]
-    result
+    names[@p1points] + '-' + names[@p2points]
   end
 
   def names
