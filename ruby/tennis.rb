@@ -7,10 +7,19 @@ module Tennis
 
     def server_scored
       @server_points += 1
+      self
     end
 
     def receiver_scored
       @receiver_points += 1
+      self
+    end
+
+    def to_str
+      return tied_score if tied?
+      return advantage_or_won_score if advantage_or_won?
+
+      return regular_score
     end
 
     def tied?
@@ -54,13 +63,6 @@ module Tennis
         3 => 'Forty',
       }
     end
-
-    def to_str
-      return tied_score if tied?
-      return advantage_or_won_score if advantage_or_won?
-
-      return regular_score
-    end
   end
 end
 
@@ -73,9 +75,9 @@ class TennisGame1
 
   def won_point(playerName)
     if playerName == @player1Name
-      @score.server_scored
+      @score = @score.server_scored
     else
-      @score.receiver_scored
+      @score = @score.receiver_scored
     end
   end
 
