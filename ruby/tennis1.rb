@@ -89,15 +89,23 @@ class TennisGame1
     Score::Regular.new(@server_points, @receiver_points).to_str
   end
 
+  def diff
+    (@server_points - @receiver_points).abs
+  end
+
+  def both_more_than_forty
+    @server_points >= 4 or @receiver_points >= 4
+  end
+
   def tied?
-    @server_points == @receiver_points
+    diff.zero?
   end
 
   def advantage?
-    (@server_points >= 4 or @receiver_points >= 4) and (@server_points - @receiver_points).abs == 1
+    both_more_than_forty and diff == 1
   end
 
   def won?
-    (@server_points >= 4 or @receiver_points >= 4) and (@server_points - @receiver_points).abs > 1
+    both_more_than_forty and diff > 1
   end
 end
