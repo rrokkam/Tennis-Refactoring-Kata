@@ -72,9 +72,9 @@ module Score
   end
 
   class Regular
-    def initialize(server_points, receiver_points)
-      @server_points = server_points
-      @receiver_points = receiver_points
+    def initialize
+      @server_points = 0
+      @receiver_points = 0
     end
 
     def to_str
@@ -116,7 +116,7 @@ class TennisGame1
   def initialize(server, receiver)
     @server = server
     @receiver = receiver
-    @score = Score::Regular.new(0, 0)
+    @score = Score::Regular.new
   end
 
   def won_point(player)
