@@ -74,19 +74,25 @@ class TennisGame1
     @receiver_name = receiver_name
     @server_points = 0
     @receiver_points = 0
+    @score = Score::Tied.new(@server_points)
   end
 
   def won_point(name)
     @server_points += 1 if name == @server_name
     @receiver_points += 1 if name == @receiver_name
+    @score = update_score
   end
 
-  def score
+  def update_score
     return Score::Tied.new(@server_points).to_str if tied?
     return Score::Advantage.new(@server_points, @receiver_points).to_str if advantage?
     return Score::Won.new(@server_points, @receiver_points).to_str if won?
 
     Score::Regular.new(@server_points, @receiver_points).to_str
+  end
+
+  def score
+    @score.to_str
   end
 
   def diff
