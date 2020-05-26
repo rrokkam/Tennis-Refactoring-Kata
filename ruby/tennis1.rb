@@ -1,20 +1,6 @@
 # frozen_string_literal: true
 
 module Score
-  class TiedRegular
-    def initialize(points)
-      @points = points
-    end
-
-    def to_str
-      {
-        0 => 'Love-All',
-        1 => 'Fifteen-All',
-        2 => 'Thirty-All'
-      }.fetch(@points, nil)
-    end
-  end
-
   class Deuce
     def to_str
       'Deuce'
@@ -52,6 +38,8 @@ module Score
     end
 
     def to_str
+      return names[@server_points] + '-All' if @server_points == @receiver_points
+
       names[@server_points] + '-' + names[@receiver_points]
     end
 
@@ -72,7 +60,7 @@ class TennisGame1
     @receiver_name = receiver_name
     @server_points = 0
     @receiver_points = 0
-    @score = Score::TiedRegular.new(0)
+    @score = Score::Regular.new(0, 0)
   end
 
   def won_point(name)
@@ -82,7 +70,6 @@ class TennisGame1
   end
 
   def update_score
-    return Score::TiedRegular.new(@server_points).to_str if tied_not_deuce?
     return Score::ServerAdvantage.new.to_str if server_advantage?
     return Score::ReceiverAdvantage.new.to_str if receiver_advantage?
     return Score::ServerWon.new.to_str if server_won?
@@ -106,10 +93,6 @@ class TennisGame1
 
   def deuce?
     diff.zero? and @server_points >= 3
-  end
-
-  def tied_not_deuce?
-    diff.zero? and !deuce?
   end
 
   def receiver_advantage?
