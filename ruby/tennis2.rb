@@ -1,16 +1,35 @@
 # frozen_string_literal: true
 
+module Tennis2
+  class Player
+    def initialize(name)
+      @name = name
+      @points = 0
+    end
+
+    def name
+      @name
+    end
+
+    def points
+      @points
+    end
+
+    def score
+      @points += 1
+    end
+  end
+end
+
 class TennisGame2
   def initialize(server_name, receiver_name)
-    @server_name = server_name
-    @receiver_name = receiver_name
-    @server_points = 0
-    @receiver_points = 0
+    @server = Tennis2::Player.new(server_name)
+    @receiver = Tennis2::Player.new(receiver_name)
   end
 
-  def won_point(player_name)
-    @server_points += 1 if player_name == @server_name
-    @receiver_points += 1 if player_name == @receiver_name
+  def won_point(name)
+    @server.score   if name == @server.name
+    @receiver.score if name == @receiver.name
   end
 
   def label
@@ -18,13 +37,13 @@ class TennisGame2
   end
 
   def score
-    return label[@server_points] + '-All'                        if (@server_points == @receiver_points) && (@server_points < 3)
-    return 'Deuce'                                               if (@server_points == @receiver_points) && (@server_points >= 3)
-    return label[@server_points] + '-' + label[@receiver_points] if [@server_points, @receiver_points].max < 4
-    return 'Win for ' + @server_name                             if (@server_points >= 4) && ((@server_points - @receiver_points) >= 2)
-    return 'Win for ' + @receiver_name                           if (@receiver_points >= 4) && ((@receiver_points - @server_points) >= 2)
-    return 'Advantage ' + @server_name                           if (@receiver_points >= 3) && (@server_points > @receiver_points)
-    return 'Advantage ' + @receiver_name                         if (@server_points >= 3) && (@receiver_points > @server_points)
+    return label[@server.points] + '-All'                        if (@server.points == @receiver.points) && (@server.points < 3)
+    return 'Deuce'                                               if (@server.points == @receiver.points) && (@server.points >= 3)
+    return label[@server.points] + '-' + label[@receiver.points] if [@server.points, @receiver.points].max < 4
+    return 'Win for ' + @server.name                             if (@server.points >= 4) && ((@server.points - @receiver.points) >= 2)
+    return 'Win for ' + @receiver.name                           if (@receiver.points >= 4) && ((@receiver.points - @server.points) >= 2)
+    return 'Advantage ' + @server.name                           if (@receiver.points >= 3) && (@server.points > @receiver.points)
+    return 'Advantage ' + @receiver.name                         if (@server.points >= 3) && (@receiver.points > @server.points)
 
     ''
   end
