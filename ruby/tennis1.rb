@@ -73,11 +73,15 @@ module Tennis
       self
     end
 
-    def to_str
-      return Score::Tied.new(@server_points).to_str if tied?
-      return Score::AdvantageOrWon.new(@server_points, @receiver_points).to_str if advantage_or_won?
+    def score
+      return Score::Tied.new(@server_points) if tied?
+      return Score::AdvantageOrWon.new(@server_points, @receiver_points) if advantage_or_won?
 
-      Score::Regular.new(@server_points, @receiver_points).to_str
+      Score::Regular.new(@server_points, @receiver_points)
+    end
+
+    def to_str
+      score.to_str
     end
 
     def tied?
