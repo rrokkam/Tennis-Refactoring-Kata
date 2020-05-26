@@ -5,11 +5,27 @@ module Score
     def to_str
       'Deuce'
     end
+
+    def server_point
+      ServerAdvantage.new
+    end
+
+    def receiver_point
+      ReceiverAdvantage.new
+    end
   end
 
   class ServerWon
     def to_str
       'Win for player1'
+    end
+
+    def server_point
+      self
+    end
+
+    def receiver_point
+      self
     end
   end
 
@@ -17,17 +33,41 @@ module Score
     def to_str
       'Win for player2'
     end
+
+    def server_point
+      self
+    end
+
+    def receiver_point
+      self
+    end
   end
 
   class ServerAdvantage
     def to_str
       'Advantage player1'
     end
+
+    def server_point
+      ServerWon.new
+    end
+
+    def receiver_point
+      Deuce.new
+    end
   end
 
   class ReceiverAdvantage
     def to_str
       'Advantage player2'
+    end
+
+    def server_point
+      Deuce.new
+    end
+
+    def receiver_point
+      ReceiverWon.new
     end
   end
 
@@ -51,63 +91,40 @@ module Score
         3 => 'Forty'
       }
     end
+
+    def server_point
+      @server_points += 1
+      score
+    end
+
+    def receiver_point
+      @receiver_points += 1
+      score
+    end
+
+    def score
+      return Deuce.new if @server_points == 3 && @receiver_points == 3
+      return ServerWon.new if @server_points == 4
+      return ReceiverWon.new if @receiver_points == 4
+
+      self
+    end
   end
 end
 
 class TennisGame1
-  def initialize(server_name, receiver_name)
-    @server_name = server_name
-    @receiver_name = receiver_name
-    @server_points = 0
-    @receiver_points = 0
+  def initialize(server, receiver)
+    @server = server
+    @receiver = receiver
     @score = Score::Regular.new(0, 0)
   end
 
-  def won_point(name)
-    @server_points += 1 if name == @server_name
-    @receiver_points += 1 if name == @receiver_name
-    @score = update_score
-  end
-
-  def update_score
-    return Score::ServerAdvantage.new.to_str if server_advantage?
-    return Score::ReceiverAdvantage.new.to_str if receiver_advantage?
-    return Score::ServerWon.new.to_str if server_won?
-    return Score::ReceiverWon.new.to_str if receiver_won?
-    return Score::Deuce.new.to_str if deuce?
-
-    Score::Regular.new(@server_points, @receiver_points).to_str
+  def won_point(player)
+    @score = @score.server_point if player == @server
+    @score = @score.receiver_point if player == @receiver
   end
 
   def score
     @score.to_str
-  end
-
-  def diff
-    @server_points - @receiver_points
-  end
-
-  def both_more_than_forty
-    @server_points >= 4 or @receiver_points >= 4
-  end
-
-  def deuce?
-    diff.zero? and @server_points >= 3
-  end
-
-  def receiver_advantage?
-    both_more_than_forty and diff == -1
-  end
-
-  def server_advantage?
-    both_more_than_forty and diff == 1
-  end
-
-  def receiver_won?
-    both_more_than_forty and diff < -1
-  end
-
-  def server_won?
-    both_more_than_forty and diff > 1
   end
 end
