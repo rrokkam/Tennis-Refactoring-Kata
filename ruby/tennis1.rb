@@ -15,35 +15,27 @@ module Score
     end
   end
 
-  class Won
-    def initialize(server_points, receiver_points)
-      @server_points = server_points
-      @receiver_points = receiver_points
-    end
-
+  class ServerWon
     def to_str
-      minus_result = @server_points - @receiver_points
-      if minus_result >= 2
-        'Win for player1'
-      else
-        'Win for player2'
-      end
+      'Win for player1'
     end
   end
 
-  class Advantage
-    def initialize(server_points, receiver_points)
-      @server_points = server_points
-      @receiver_points = receiver_points
-    end
-
+  class ReceiverWon
     def to_str
-      minus_result = @server_points - @receiver_points
-      if minus_result == 1
-        'Advantage player1'
-      else
-        'Advantage player2'
-      end
+      'Win for player2'
+    end
+  end
+
+  class ServerAdvantage
+    def to_str
+      'Advantage player1'
+    end
+  end
+
+  class ReceiverAdvantage
+    def to_str
+      'Advantage player2'
     end
   end
 
@@ -85,8 +77,10 @@ class TennisGame1
 
   def update_score
     return Score::Tied.new(@server_points).to_str if tied?
-    return Score::Advantage.new(@server_points, @receiver_points).to_str if advantage?
-    return Score::Won.new(@server_points, @receiver_points).to_str if won?
+    return Score::ServerAdvantage.new.to_str if server_advantage?
+    return Score::ReceiverAdvantage.new.to_str if receiver_advantage?
+    return Score::ServerWon.new.to_str if server_won?
+    return Score::ReceiverWon.new.to_str if receiver_won?
 
     Score::Regular.new(@server_points, @receiver_points).to_str
   end
@@ -96,7 +90,7 @@ class TennisGame1
   end
 
   def diff
-    (@server_points - @receiver_points).abs
+    @server_points - @receiver_points
   end
 
   def both_more_than_forty
@@ -107,11 +101,19 @@ class TennisGame1
     diff.zero?
   end
 
-  def advantage?
+  def receiver_advantage?
+    both_more_than_forty and diff == -1
+  end
+
+  def server_advantage?
     both_more_than_forty and diff == 1
   end
 
-  def won?
+  def receiver_won?
+    both_more_than_forty and diff < -1
+  end
+
+  def server_won?
     both_more_than_forty and diff > 1
   end
 end
