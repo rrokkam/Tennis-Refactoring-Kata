@@ -2,57 +2,29 @@
 
 module Score
   class Deuce
-    def to_str
-      'Deuce'
-    end
-
-    def server_point
-      ServerAdvantage.new
-    end
-
-    def receiver_point
-      ReceiverAdvantage.new
-    end
+    def to_str;         'Deuce' end
+    def server_point;   ServerAdvantage.new end
+    def receiver_point; ReceiverAdvantage.new end
   end
 
-  class ServerWon
-    def to_str
-      'Win for player1'
-    end
+  class ServerWin
+    def to_str;         'Win for player1' end
   end
 
-  class ReceiverWon
-    def to_str
-      'Win for player2'
-    end
+  class ReceiverWin
+    def to_str;         'Win for player2' end
   end
 
   class ServerAdvantage
-    def to_str
-      'Advantage player1'
-    end
-
-    def server_point
-      ServerWon.new
-    end
-
-    def receiver_point
-      Deuce.new
-    end
+    def to_str;         'Advantage player1' end
+    def server_point;   ServerWin.new end
+    def receiver_point; Deuce.new end
   end
 
   class ReceiverAdvantage
-    def to_str
-      'Advantage player2'
-    end
-
-    def server_point
-      Deuce.new
-    end
-
-    def receiver_point
-      ReceiverWon.new
-    end
+    def to_str;         'Advantage player2' end
+    def server_point;   Deuce.new end
+    def receiver_point; ReceiverWin.new end
   end
 
   class Regular
@@ -62,18 +34,9 @@ module Score
     end
 
     def to_str
-      return names[@server_points] + '-All' if @server_points == @receiver_points
+      return label[@server_points] + '-All' if @server_points == @receiver_points
 
-      names[@server_points] + '-' + names[@receiver_points]
-    end
-
-    def names
-      {
-        0 => 'Love',
-        1 => 'Fifteen',
-        2 => 'Thirty',
-        3 => 'Forty'
-      }
+      label[@server_points] + '-' + label[@receiver_points]
     end
 
     def server_point
@@ -86,10 +49,14 @@ module Score
       score
     end
 
+    def label
+      %w[Love Fifteen Thirty Forty Win]
+    end
+
     def score
-      return Deuce.new if @server_points == 3 && @receiver_points == 3
-      return ServerWon.new if @server_points == 4
-      return ReceiverWon.new if @receiver_points == 4
+      return Deuce.new       if to_str == 'Forty-All'
+      return ServerWin.new   if label[@server_points] == 'Win'
+      return ReceiverWin.new if label[@receiver_points] == 'Win'
 
       self
     end
