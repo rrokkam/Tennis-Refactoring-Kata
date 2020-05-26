@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class TennisGame2
-  def initialize(player1_name, player2_name)
-    @player1_name = player1_name
-    @player2_name = player2_name
-    @p1points = 0
-    @p2points = 0
+  def initialize(server_name, receiver_name)
+    @server_name = server_name
+    @receiver_name = receiver_name
+    @server_points = 0
+    @receiver_points = 0
   end
 
   def won_point(player_name)
-    @p1points += 1 if player_name == @player1_name
-    @p2points += 1 if player_name == @player2_name
+    @server_points += 1 if player_name == @server_name
+    @receiver_points += 1 if player_name == @receiver_name
   end
 
   def label
@@ -18,13 +18,13 @@ class TennisGame2
   end
 
   def score
-    return label[@p1points] + '-All'                 if (@p1points == @p2points) && (@p1points < 3)
-    return 'Deuce'                                   if (@p1points == @p2points) && (@p1points >= 3)
-    return label[@p1points] + '-' + label[@p2points] if [@p1points, @p2points].max < 4
-    return 'Win for ' + @player1_name                if (@p1points >= 4) && ((@p1points - @p2points) >= 2)
-    return 'Win for ' + @player2_name                if (@p2points >= 4) && ((@p2points - @p1points) >= 2)
-    return 'Advantage ' + @player1_name              if (@p2points >= 3) && (@p1points > @p2points)
-    return 'Advantage ' + @player2_name              if (@p1points >= 3) && (@p2points > @p1points)
+    return label[@server_points] + '-All'                        if (@server_points == @receiver_points) && (@server_points < 3)
+    return 'Deuce'                                               if (@server_points == @receiver_points) && (@server_points >= 3)
+    return label[@server_points] + '-' + label[@receiver_points] if [@server_points, @receiver_points].max < 4
+    return 'Win for ' + @server_name                             if (@server_points >= 4) && ((@server_points - @receiver_points) >= 2)
+    return 'Win for ' + @receiver_name                           if (@receiver_points >= 4) && ((@receiver_points - @server_points) >= 2)
+    return 'Advantage ' + @server_name                           if (@receiver_points >= 3) && (@server_points > @receiver_points)
+    return 'Advantage ' + @receiver_name                         if (@server_points >= 3) && (@receiver_points > @server_points)
 
     ''
   end
