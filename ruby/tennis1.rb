@@ -15,7 +15,23 @@ module Score
     end
   end
 
-  class AdvantageOrWon
+  class Won
+    def initialize(server_points, receiver_points)
+      @server_points = server_points
+      @receiver_points = receiver_points
+    end
+
+    def to_str
+      minus_result = @server_points - @receiver_points
+      if minus_result >= 2
+        'Win for player1'
+      else
+        'Win for player2'
+      end
+    end
+  end
+
+  class Advantage
     def initialize(server_points, receiver_points)
       @server_points = server_points
       @receiver_points = receiver_points
@@ -25,12 +41,8 @@ module Score
       minus_result = @server_points - @receiver_points
       if minus_result == 1
         'Advantage player1'
-      elsif minus_result == -1
-        'Advantage player2'
-      elsif minus_result >= 2
-        'Win for player1'
       else
-        'Win for player2'
+        'Advantage player2'
       end
     end
   end
@@ -71,7 +83,8 @@ class TennisGame1
 
   def score
     return Score::Tied.new(@server_points).to_str if tied?
-    return Score::AdvantageOrWon.new(@server_points, @receiver_points).to_str if advantage_or_won?
+    return Score::Advantage.new(@server_points, @receiver_points).to_str if advantage?
+    return Score::Won.new(@server_points, @receiver_points).to_str if won?
 
     Score::Regular.new(@server_points, @receiver_points).to_str
   end
@@ -80,7 +93,11 @@ class TennisGame1
     @server_points == @receiver_points
   end
 
-  def advantage_or_won?
-    @server_points >= 4 or @receiver_points >= 4
+  def advantage?
+    (@server_points >= 4 or @receiver_points >= 4) and (@server_points - @receiver_points).abs == 1
+  end
+
+  def won?
+    (@server_points >= 4 or @receiver_points >= 4) and (@server_points - @receiver_points).abs > 1
   end
 end
