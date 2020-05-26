@@ -1,5 +1,61 @@
 # frozen_string_literal: true
 
+module Score
+  class Tied
+    def initialize(points)
+      @points = points
+    end
+
+    def to_str
+      {
+        0 => 'Love-All',
+        1 => 'Fifteen-All',
+        2 => 'Thirty-All'
+      }.fetch(@points, 'Deuce')
+    end
+  end
+
+  class AdvantageOrWon
+    def initialize(server_points, receiver_points)
+      @server_points = server_points
+      @receiver_points = receiver_points
+    end
+
+    def to_str
+      minus_result = @server_points - @receiver_points
+      if minus_result == 1
+        'Advantage player1'
+      elsif minus_result == -1
+        'Advantage player2'
+      elsif minus_result >= 2
+        'Win for player1'
+      else
+        'Win for player2'
+      end
+    end
+  end
+
+  class Regular
+    def initialize(server_points, receiver_points)
+      @server_points = server_points
+      @receiver_points = receiver_points
+    end
+
+    def to_str
+      names[@server_points] + '-' + names[@receiver_points]
+    end
+
+    def names
+      {
+        0 => 'Love',
+        1 => 'Fifteen',
+        2 => 'Thirty',
+        3 => 'Forty'
+      }
+    end
+  end
+end
+
 module Tennis
   class GameScore
     def initialize
@@ -18,52 +74,18 @@ module Tennis
     end
 
     def to_str
-      return tied_score if tied?
-      return advantage_or_won_score if advantage_or_won?
+      return Score::Tied.new(@server_points).to_str if tied?
+      return Score::AdvantageOrWon.new(@server_points, @receiver_points).to_str if advantage_or_won?
 
-      regular_score
+      Score::Regular.new(@server_points, @receiver_points).to_str
     end
 
     def tied?
       @server_points == @receiver_points
     end
 
-    def tied_score
-      {
-        0 => 'Love-All',
-        1 => 'Fifteen-All',
-        2 => 'Thirty-All'
-      }.fetch(@server_points, 'Deuce')
-    end
-
     def advantage_or_won?
       @server_points >= 4 or @receiver_points >= 4
-    end
-
-    def advantage_or_won_score
-      minus_result = @server_points - @receiver_points
-      if minus_result == 1
-        'Advantage player1'
-      elsif minus_result == -1
-        'Advantage player2'
-      elsif minus_result >= 2
-        'Win for player1'
-      else
-        'Win for player2'
-      end
-    end
-
-    def regular_score
-      names[@server_points] + '-' + names[@receiver_points]
-    end
-
-    def names
-      {
-        0 => 'Love',
-        1 => 'Fifteen',
-        2 => 'Thirty',
-        3 => 'Forty'
-      }
     end
   end
 end
