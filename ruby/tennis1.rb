@@ -19,27 +19,11 @@ module Score
     def to_str
       'Win for player1'
     end
-
-    def server_point
-      self
-    end
-
-    def receiver_point
-      self
-    end
   end
 
   class ReceiverWon
     def to_str
       'Win for player2'
-    end
-
-    def server_point
-      self
-    end
-
-    def receiver_point
-      self
     end
   end
 
