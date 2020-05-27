@@ -31,15 +31,47 @@ class TennisGame2
     %w[Love Fifteen Thirty Forty]
   end
 
+  def tied_label(points)
+    label[points] + '-All'
+  end
+
+  def untied_label(server_points, receiver_points)
+    label[server_points] + '-' + label[receiver_points]
+  end
+
+  def advantage_label(name)
+    'Advantage ' + name
+  end
+
+  def win_label(name)
+    'Win for ' + name
+  end
+
+  def deuce_label
+    'Deuce'
+  end
+
   def score
-    return label[@server.points] + '-All'                        if (@server.points < 3)    && ((@server.points - @receiver.points) == 0)
-    return 'Deuce'                                               if (@server.points >= 3)   && ((@receiver.points - @server.points) == 0)
-    return label[@server.points] + '-' + label[@receiver.points] if [@server.points, @receiver.points].max < 4
-    return 'Win for ' + @server.name                             if (@server.points >= 4)   && ((@server.points - @receiver.points) >= 2)
-    return 'Win for ' + @receiver.name                           if (@receiver.points >= 4) && ((@receiver.points - @server.points) >= 2)
-    return 'Advantage ' + @server.name                           if (@server.points >= 4)   && ((@server.points - @receiver.points) == 1)
-    return 'Advantage ' + @receiver.name                         if (@receiver.points >= 4) && ((@receiver.points - @server.points) == 1)
+    return tied_label(@server.points)                     if (@server.points < 3)    && tied?
+    return deuce_label                                    if (@server.points >= 3)   && tied?
+    return untied_label(@server.points, @receiver.points) if [@server.points, @receiver.points].max < 4
+    return win_label(@server.name)                        if (@server.points >= 4)   && server_lead > 1
+    return win_label(@receiver.name)                      if (@receiver.points >= 4) && receiver_lead > 1
+    return advantage_label(@server.name)                  if (@server.points >= 4)   && server_lead == 1
+    return advantage_label(@receiver.name)                if (@receiver.points >= 4) && receiver_lead == 1
 
     ''
+  end
+
+  def tied?
+    @server.points == @receiver.points
+  end
+
+  def server_lead
+    @server.points - @receiver.points
+  end
+
+  def receiver_lead
+    @receiver.points - @server.points
   end
 end
