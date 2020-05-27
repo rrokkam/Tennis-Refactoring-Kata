@@ -17,14 +17,11 @@ class TennisGame3
   end
 
   def score
-    if ((@p1_score < 4) && (@p2_score < 4)) && (@p1_score + @p2_score < 6)
-      s = label[@p1_score]
-      @p1_score == @p2_score ? s + '-All' : s + '-' + p[@p2_score]
-    elsif @p1_score == @p2_score
-      'Deuce'
-    else
-      advantage? ? advantage_label : win_label
-    end
+    return regular_label if regular?
+    return advantage_label if advantage?
+    return win_label if win?
+
+    deuce_label
   end
 
   def label
@@ -35,6 +32,15 @@ class TennisGame3
     @p1_score > @p2_score ? @p1_name : @p2_name
   end
 
+  def regular?
+    (@p1_score < 4) && (@p2_score < 4) && (@p1_score + @p2_score < 6)
+  end
+
+  def regular_label
+    s = label[@p1_score]
+    @p1_score == @p2_score ? s + '-All' : s + '-' + label[@p2_score]
+  end
+
   def advantage?
     (@p1_score - @p2_score).abs == 1
   end
@@ -43,7 +49,15 @@ class TennisGame3
     'Advantage ' + leader_name
   end
 
+  def win?
+    (@p1_score - @p2_score).abs > 1
+  end
+
   def win_label
     'Win for ' + leader_name
+  end
+
+  def deuce_label
+    'Deuce'
   end
 end
