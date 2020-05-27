@@ -15,7 +15,7 @@ module Tennis2
       @points
     end
 
-    def score
+    def score_point
       @points += 1
     end
   end
@@ -28,8 +28,8 @@ class TennisGame2
   end
 
   def won_point(name)
-    @server.score   if name == @server.name
-    @receiver.score if name == @receiver.name
+    @server.score_point   if name == @server.name
+    @receiver.score_point if name == @receiver.name
   end
 
   def label
@@ -37,13 +37,13 @@ class TennisGame2
   end
 
   def score
-    return label[@server.points] + '-All'                        if (@server.points == @receiver.points) && (@server.points < 3)
-    return 'Deuce'                                               if (@server.points == @receiver.points) && (@server.points >= 3)
+    return label[@server.points] + '-All'                        if (@server.points < 3)    && ((@server.points - @receiver.points) == 0)
+    return 'Deuce'                                               if (@server.points >= 3)   && ((@receiver.points - @server.points) == 0)
     return label[@server.points] + '-' + label[@receiver.points] if [@server.points, @receiver.points].max < 4
-    return 'Win for ' + @server.name                             if (@server.points >= 4) && ((@server.points - @receiver.points) >= 2)
+    return 'Win for ' + @server.name                             if (@server.points >= 4)   && ((@server.points - @receiver.points) >= 2)
     return 'Win for ' + @receiver.name                           if (@receiver.points >= 4) && ((@receiver.points - @server.points) >= 2)
-    return 'Advantage ' + @server.name                           if (@receiver.points >= 3) && (@server.points > @receiver.points)
-    return 'Advantage ' + @receiver.name                         if (@server.points >= 3) && (@receiver.points > @server.points)
+    return 'Advantage ' + @server.name                           if (@server.points >= 4)   && ((@server.points - @receiver.points) == 1)
+    return 'Advantage ' + @receiver.name                         if (@receiver.points >= 4) && ((@receiver.points - @server.points) == 1)
 
     ''
   end
