@@ -18,14 +18,32 @@ class TennisGame3
 
   def score
     if ((@p1_score < 4) && (@p2_score < 4)) && (@p1_score + @p2_score < 6)
-      p = %w[Love Fifteen Thirty Forty]
-      s = p[@p1_score]
+      s = label[@p1_score]
       @p1_score == @p2_score ? s + '-All' : s + '-' + p[@p2_score]
     elsif @p1_score == @p2_score
       'Deuce'
     else
-      s = @p1_score > @p2_score ? @p1_name : @p2_name
-      (@p1_score - @p2_score) * (@p1_score - @p2_score) == 1 ? 'Advantage ' + s : 'Win for ' + s
+      advantage? ? advantage_label : win_label
     end
+  end
+
+  def label
+    %w[Love Fifteen Thirty Forty]
+  end
+
+  def leader_name
+    @p1_score > @p2_score ? @p1_name : @p2_name
+  end
+
+  def advantage?
+    (@p1_score - @p2_score).abs == 1
+  end
+
+  def advantage_label
+    'Advantage ' + leader_name
+  end
+
+  def win_label
+    'Win for ' + leader_name
   end
 end
