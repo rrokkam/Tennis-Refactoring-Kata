@@ -7,13 +7,8 @@ module Tennis2
       @points = 0
     end
 
-    def name
-      @name
-    end
-
-    def points
-      @points
-    end
+    attr_reader :name
+    attr_reader :points
 
     def score_point
       @points += 1
