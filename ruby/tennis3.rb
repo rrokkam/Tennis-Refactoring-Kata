@@ -37,8 +37,8 @@ class TennisGame3
   end
 
   def regular_label
-    s = label[@p1_score]
-    @p1_score == @p2_score ? s + '-All' : s + '-' + label[@p2_score]
+    return label[@p1_score] + '-All' if @p1_score == @p2_score
+    label[@p1_score] + '-' + label[@p2_score]
   end
 
   def advantage?
